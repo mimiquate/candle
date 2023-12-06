@@ -174,6 +174,10 @@ impl crate::backend::BackendStorage for MetalStorage {
         Err(Error::NotCompiledWithMetalSupport)
     }
 
+    fn sum_pool2d(&self, _: &Layout, _: (usize, usize), _: (usize, usize)) -> Result<Self> {
+        Err(Error::NotCompiledWithMetalSupport)
+    }
+
     fn upsample_nearest1d(&self, _: &Layout, _: usize) -> Result<Self> {
         Err(Error::NotCompiledWithMetalSupport)
     }

@@ -467,6 +467,21 @@ impl Storage {
         }
     }
 
+    pub(crate) fn sum_pool2d(
+        &self,
+        layout: &Layout,
+        kernel_size: (usize, usize),
+        stride: (usize, usize),
+    ) -> Result<Self> {
+        match self {
+            Storage::Cpu(storage) => {
+                let storage = storage.sum_pool2d(layout, kernel_size, stride)?;
+                Ok(Self::Cpu(storage))
+            }
+            _ => todo!()
+        }
+    }
+
     pub(crate) fn upsample_nearest1d(&self, layout: &Layout, sz: usize) -> Result<Self> {
         match self {
             Storage::Cpu(storage) => {

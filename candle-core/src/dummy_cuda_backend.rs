@@ -162,6 +162,10 @@ impl crate::backend::BackendStorage for CudaStorage {
         Err(Error::NotCompiledWithCudaSupport)
     }
 
+    fn sum_pool2d(&self, _: &Layout, _: (usize, usize), _: (usize, usize)) -> Result<Self> {
+        Err(Error::NotCompiledWithCudaSupport)
+    }
+
     fn upsample_nearest1d(&self, _: &Layout, _: usize) -> Result<Self> {
         Err(Error::NotCompiledWithCudaSupport)
     }

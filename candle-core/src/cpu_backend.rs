@@ -727,6 +727,47 @@ impl Map1 for MaxPool2D {
     }
 }
 
+struct SumPool2D((usize, usize), (usize, usize));
+
+impl Map1 for SumPool2D {
+    fn f<T: WithDType>(&self, src: &[T], layout: &Layout) -> Result<Vec<T>> {
+        // https://pytorch.org/docs/stable/generated/torch.nn.AvgPool2d.html
+        let (k_h, k_w) = self.0;
+        let (s_h, s_w) = self.1;
+        let (b_sz, c, h, w) = layout.shape().dims4()?;
+        let stride = layout.stride();
+        let (stride_h, stride_w) = (stride[2], stride[3]);
+        let h_out = (h - k_h) / s_h + 1;
+        let w_out = (w - k_w) / s_w + 1;
+        let src_index = layout.start_offset();
+        let mut dst = vec![T::zero(); b_sz * c * h_out * w_out];
+        let scale = 1f64 / (k_h * k_w) as f64;
+        let scale = T::from_f64(scale);
+        for b_idx in 0..b_sz {
+            let dst = &mut dst[b_idx * c * h_out * w_out..];
+            let src_index = src_index + b_idx * stride[0];
+            for c_idx in 0..c {
+                let dst = &mut dst[c_idx * h_out * w_out..];
+                let src_index = src_index + c_idx * stride[1];
+                for h_idx in 0..h_out {
+                    for w_idx in 0..w_out {
+                        let mut sum = T::zero();
+                        for m in 0..k_h {
+                            for n in 0..k_w {
+                                let m = s_h * h_idx + m;
+                                let n = s_w * w_idx + n;
+                                sum += src[src_index + m * stride_h + n * stride_w]
+                            }
+                        }
+                        dst[h_idx * w_out + w_idx] = sum * scale;
+                    }
+                }
+            }
+        }
+        Ok(dst)
+    }
+}
+
 struct UpsampleNearest1D(usize);
 
 impl Map1 for UpsampleNearest1D {
@@ -2233,6 +2274,15 @@ impl BackendStorage for CpuStorage {
         stride: (usize, usize),
     ) -> Result<Self> {
         MaxPool2D(kernel_size, stride).map(self, layout)
+    }
+
+    fn sum_pool2d(
+        &self,
+        layout: &Layout,
+        kernel_size: (usize, usize),
+        stride: (usize, usize),
+    ) -> Result<Self> {
+        SumPool2D(kernel_size, stride).map(self, layout)
     }
 
     fn upsample_nearest1d(&self, layout: &Layout, sz: usize) -> Result<Self> {

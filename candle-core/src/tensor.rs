@@ -1076,6 +1076,33 @@ impl Tensor {
         Ok(from_storage(storage, (n, c, h_out, w_out), op, false))
     }
 
+    pub fn sum_pool2d<T: crate::ToUsize2>(&self, sz: T) -> Result<Self> {
+        let sz = sz.to_usize2();
+        self.sum_pool2d_with_stride(sz, sz)
+    }
+
+    pub fn sum_pool2d_with_stride<T: crate::ToUsize2>(
+        &self,
+        kernel_size: T,
+        stride: T,
+    ) -> Result<Self> {
+        let kernel_size = kernel_size.to_usize2();
+        let stride = stride.to_usize2();
+        let (n, c, h, w) = self.dims4()?;
+        // https://pytorch.org/docs/stable/generated/torch.nn.AvgPool2d.html#torch.nn.AvgPool2d
+        let h_out = (h - kernel_size.0) / stride.0 + 1;
+        let w_out = (w - kernel_size.1) / stride.1 + 1;
+        let op = BackpropOp::new1(self, |arg| Op::AvgPool2D {
+            arg,
+            kernel_size,
+            stride,
+        });
+        let storage = self
+            .storage()
+            .sum_pool2d(self.layout(), kernel_size, stride)?;
+        Ok(from_storage(storage, (n, c, h_out, w_out), op, false))
+    }
+
     /// Returns the matrix-multiplication of the input tensor with the other provided tensor.
     ///
     /// # Arguments

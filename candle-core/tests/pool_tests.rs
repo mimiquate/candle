@@ -33,6 +33,20 @@ fn max_pool2d(dev: &Device) -> Result<()> {
     Ok(())
 }
 
+fn sum_pool2d(dev: &Device) -> Result<()> {
+    let data: Vec<f32> = vec![
+        1., 1., 1., 1.,
+        0., 0., 1., 1.,
+        1., 1., 1., 1.,
+        1., 1., 1., 1.,
+    ];
+    let t = Tensor::from_vec(data, (1, 1, 4, 4), dev)?;
+    let pool = t.sum_pool2d(2)?.squeeze(0)?.squeeze(0)?;
+    assert_eq!(pool.to_vec2::<f32>()?, [[2f32, 4.], [4., 4.]]);
+
+    Ok(())
+}
+
 /* This test corresponds to the following PyTorch script.
 import torch
 torch.manual_seed(4242)
@@ -106,6 +120,7 @@ test_device!(
     avg_pool2d_pytorch_metal
 );
 test_device!(max_pool2d, max_pool2d_cpu, max_pool2d_gpu, max_pool2d_metal);
+test_device!(sum_pool2d, sum_pool2d_cpu, sum_pool2d_gpu, sum_pool2d_metal);
 test_device!(
     upsample_nearest2d,
     upsample_nearest2d_cpu,

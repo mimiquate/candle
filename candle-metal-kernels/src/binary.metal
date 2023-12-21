@@ -61,6 +61,9 @@ BINARY(FN, half, half, NAME##_f16, NAME##_f16_strided);
 #define BFLOAT_BINARY_OP(FN, NAME) \
 BINARY(FN, bfloat, bfloat, NAME##_bf16, NAME##_bf16_strided);
 
+#define INT64_BINARY_OP(NAME, FN, OUT_TYPENAME) \
+BINARY(FN, int64_t, OUT_TYPENAME, NAME##_i64, NAME##_i64_strided);
+
 #define BINARY_OP_OUT(NAME, FN) \
 BINARY(FN, float, uint8_t, NAME##_f32, NAME##_f32_strided); \
 BINARY(FN, half, uint8_t, NAME##_f16, NAME##_f16_strided);
@@ -79,6 +82,22 @@ BINARY_OP_OUT(le, x <= y)
 BINARY_OP_OUT(lt, x < y)
 BINARY_OP_OUT(ge, x >= y)
 BINARY_OP_OUT(gt, x > y)
+
+#if __METAL_VERSION__ >= 220
+INT64_BINARY_OP(add, x + y, uint64_t)
+INT64_BINARY_OP(sub, x - y, uint64_t)
+INT64_BINARY_OP(mul, x * y, uint64_t)
+INT64_BINARY_OP(div, x / y, uint64_t)
+INT64_BINARY_OP(min, MIN(x, y), uint64_t)
+INT64_BINARY_OP(max, MAX(x, y), uint64_t)
+
+INT64_BINARY_OP(eq, x == y, uint8_t)
+INT64_BINARY_OP(ne, x != y, uint8_t)
+INT64_BINARY_OP(le, x <= y, uint8_t)
+INT64_BINARY_OP(lt, x < y, uint8_t)
+INT64_BINARY_OP(ge, x >= y, uint8_t)
+INT64_BINARY_OP(gt, x > y, uint8_t)
+#endif
 
 #if __METAL_VERSION__ >= 310
 BFLOAT_BINARY_OP(x + y, add)

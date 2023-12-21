@@ -1130,6 +1130,12 @@ impl MetalStorage {
                 ("lt", DType::F16) => (contiguous::lt::HALF, DType::U8),
                 ("ge", DType::F16) => (contiguous::ge::HALF, DType::U8),
                 ("gt", DType::F16) => (contiguous::gt::HALF, DType::U8),
+                ("eq", DType::I64) => (contiguous::eq::INT64, DType::U8),
+                ("ne", DType::I64) => (contiguous::ne::INT64, DType::U8),
+                ("le", DType::I64) => (contiguous::le::INT64, DType::U8),
+                ("lt", DType::I64) => (contiguous::lt::INT64, DType::U8),
+                ("ge", DType::I64) => (contiguous::ge::INT64, DType::U8),
+                ("gt", DType::I64) => (contiguous::gt::INT64, DType::U8),
                 (name, dtype) => crate::bail!("Binary {name} - {dtype:?} not implemented"),
             };
             let buffer = device.new_buffer(el_count, dtype, op)?;
@@ -1173,6 +1179,18 @@ impl MetalStorage {
                 ("lt", DType::F16) => (strided::lt::HALF, DType::U8),
                 ("ge", DType::F16) => (strided::ge::HALF, DType::U8),
                 ("gt", DType::F16) => (strided::gt::HALF, DType::U8),
+                ("badd", DType::I64) => (strided::add::INT64, self.dtype),
+                ("bsub", DType::I64) => (strided::sub::INT64, self.dtype),
+                ("bmul", DType::I64) => (strided::mul::INT64, self.dtype),
+                ("bdiv", DType::I64) => (strided::div::INT64, self.dtype),
+                ("bminimum", DType::I64) => (strided::min::INT64, self.dtype),
+                ("bmaximum", DType::I64) => (strided::max::INT64, self.dtype),
+                ("eq", DType::I64) => (strided::eq::INT64, DType::U8),
+                ("ne", DType::I64) => (strided::ne::INT64, DType::U8),
+                ("le", DType::I64) => (strided::le::INT64, DType::U8),
+                ("lt", DType::I64) => (strided::lt::INT64, DType::U8),
+                ("ge", DType::I64) => (strided::ge::INT64, DType::U8),
+                ("gt", DType::I64) => (strided::gt::INT64, DType::U8),
                 (name, dtype) => crate::bail!("Binary strided {name} - {dtype:?} not implemented"),
             };
             let buffer = device.new_buffer(el_count, dtype, op)?;

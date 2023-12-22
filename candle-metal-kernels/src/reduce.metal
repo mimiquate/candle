@@ -280,6 +280,7 @@ ARGMIN(fast_argmin_u32_strided, uint, 0xFFFFFFFF)
 ARGMAX(fast_argmax_f32_strided, float, -HUGE_VALF)
 ARGMAX(fast_argmax_f16_strided, half, -HUGE_VALH)
 ARGMAX(fast_argmax_u32_strided, uint, 0)
+ARGMAX(fast_argmax_i64_strided, int64_t, 0)
 
 SOFTMAX(softmax_f32, float)
 SOFTMAX(softmax_f16, half)

@@ -161,6 +161,7 @@ macro_rules! ops{
                 pub const BFLOAT: Kernel = Kernel("copy_bf16_strided");
                 pub const U32: Kernel = Kernel("copy_u32_strided");
                 pub const U8: Kernel = Kernel("copy_u8_strided");
+                pub const I64: Kernel = Kernel("copy_i64_strided");
             }
         }
     };

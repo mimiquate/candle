@@ -1063,6 +1063,7 @@ impl BackendStorage for MetalStorage {
                 DType::BF16 => candle_metal_kernels::unary::strided::copy::BFLOAT,
                 DType::U32 => candle_metal_kernels::unary::strided::copy::U32,
                 DType::U8 => candle_metal_kernels::unary::strided::copy::U8,
+                DType::I64 => candle_metal_kernels::unary::strided::copy::I64,
                 dtype => crate::bail!("copy_strided not implemented for {dtype:?}"),
             };
             candle_metal_kernels::call_unary_strided(

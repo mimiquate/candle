@@ -522,6 +522,7 @@ impl BackendStorage for MetalStorage {
             (ReduceOp::Max, DType::U32) => ("fast_max_u32_strided", true, false),
             (ReduceOp::ArgMin, DType::U32) => ("fast_argmin_u32_strided", true, true),
             (ReduceOp::ArgMax, DType::U32) => ("fast_argmax_u32_strided", true, true),
+            (ReduceOp::Min, DType::U8) => ("fast_min_u8_strided", true, false),
             (ReduceOp::Sum, DType::F16) => ("fast_sum_f16_strided", false, false),
             (ReduceOp::Min, DType::F16) => ("fast_min_f16_strided", true, false),
             (ReduceOp::Max, DType::F16) => ("fast_max_f16_strided", true, false),
@@ -532,7 +533,7 @@ impl BackendStorage for MetalStorage {
             (ReduceOp::Max, DType::BF16) => ("fast_max_bf16_strided", true, false),
             (ReduceOp::ArgMin, DType::BF16) => ("fast_argmin_bf16_strided", true, true),
             (ReduceOp::ArgMax, DType::BF16) => ("fast_argmax_bf16_strided", true, true),
-            (k, dtype) => crate::bail!("Reduce op for non float {k:?} {dtype:?}"),
+            (k, dtype) => crate::bail!("Reduce op {k:?} for unsupported dtype {dtype:?}"),
         };
         if check_empty && layout.shape().elem_count() == 0 {
             Err(crate::Error::EmptyTensor { op: "reduce" }.bt())?

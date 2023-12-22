@@ -85,12 +85,12 @@ BINARY_OP_OUT(ge, x >= y)
 BINARY_OP_OUT(gt, x > y)
 
 #if __METAL_VERSION__ >= 220
-INT64_BINARY_OP(add, x + y, uint64_t)
-INT64_BINARY_OP(sub, x - y, uint64_t)
-INT64_BINARY_OP(mul, x * y, uint64_t)
-INT64_BINARY_OP(div, x / y, uint64_t)
-INT64_BINARY_OP(min, MIN(x, y), uint64_t)
-INT64_BINARY_OP(max, MAX(x, y), uint64_t)
+INT64_BINARY_OP(add, x + y, int64_t)
+INT64_BINARY_OP(sub, x - y, int64_t)
+INT64_BINARY_OP(mul, x * y, int64_t)
+INT64_BINARY_OP(div, x / y, int64_t)
+INT64_BINARY_OP(min, MIN(x, y), int64_t)
+INT64_BINARY_OP(max, MAX(x, y), int64_t)
 
 INT64_BINARY_OP(eq, x == y, uint8_t)
 INT64_BINARY_OP(ne, x != y, uint8_t)

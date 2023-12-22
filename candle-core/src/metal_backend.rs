@@ -523,6 +523,7 @@ impl BackendStorage for MetalStorage {
             (ReduceOp::ArgMin, DType::U32) => ("fast_argmin_u32_strided", true, true),
             (ReduceOp::ArgMax, DType::U32) => ("fast_argmax_u32_strided", true, true),
             (ReduceOp::Min, DType::U8) => ("fast_min_u8_strided", true, false),
+            (ReduceOp::Max, DType::U8) => ("fast_max_u8_strided", true, false),
             (ReduceOp::Sum, DType::I64) => ("fast_sum_i64_strided", false, false),
             (ReduceOp::Min, DType::I64) => ("fast_min_i64_strided", true, false),
             (ReduceOp::Max, DType::I64) => ("fast_max_i64_strided", true, false),

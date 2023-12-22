@@ -262,6 +262,7 @@ kernel void NAME(                                                               
 
 REDUCE(x + y, fast_sum_f32_strided, float, 0)
 REDUCE(x + y, fast_sum_u32_strided, uint, 0)
+REDUCE(x + y, fast_sum_i64_strided, int64_t, 0)
 REDUCE(x + y, fast_sum_f16_strided, half, 0)
 REDUCE(x * y, fast_mul_f32_strided, float, 1)
 REDUCE(x * y, fast_mul_u32_strided, uint, 1)

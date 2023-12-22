@@ -66,7 +66,8 @@ BINARY(FN, int64_t, OUT_TYPENAME, NAME##_i64, NAME##_i64_strided);
 
 #define BINARY_OP_OUT(NAME, FN) \
 BINARY(FN, float, uint8_t, NAME##_f32, NAME##_f32_strided); \
-BINARY(FN, half, uint8_t, NAME##_f16, NAME##_f16_strided);
+BINARY(FN, half, uint8_t, NAME##_f16, NAME##_f16_strided); \
+BINARY(FN, uint8_t, uint8_t, NAME##_u8, NAME##_u8_strided);
 
 
 BINARY_OP(x + y, add)

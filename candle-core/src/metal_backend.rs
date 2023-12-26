@@ -676,6 +676,7 @@ impl BackendStorage for MetalStorage {
                 ("ufloor", DType::F16) => contiguous::floor::HALF,
                 ("uround", DType::F16) => contiguous::round::HALF,
                 ("utanh", DType::F16) => contiguous::tanh::HALF,
+                ("uabs", DType::I64) => contiguous::abs::INT64,
                 (name, dtype) => crate::bail!("metal {name} - {dtype:?} not implemented"),
             };
             candle_metal_kernels::call_unary_contiguous(
@@ -719,6 +720,7 @@ impl BackendStorage for MetalStorage {
                 ("uceil", DType::F16) => strided::ceil::HALF,
                 ("ufloor", DType::F16) => strided::floor::HALF,
                 ("uround", DType::F16) => strided::round::HALF,
+                ("uabs", DType::I64) => strided::abs::INT64,
                 (name, dtype) => crate::bail!("strided metal {name} - {dtype:?} not implemented"),
             };
             candle_metal_kernels::call_unary_strided(

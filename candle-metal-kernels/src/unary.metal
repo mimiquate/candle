@@ -90,6 +90,9 @@ kernel void FN_NAME_STRIDED( \
 UNARY(NAME, float, NAME##_f32, NAME##_f32_strided); \
 UNARY(NAME, half, NAME##_f16, NAME##_f16_strided);
 
+#define INT64_UNARY_OP(NAME) \
+UNARY(NAME, int64_t, NAME##_i64, NAME##_i64_strided);
+
 #define BFLOAT_UNARY_OP(NAME) \
 UNARY(NAME, bfloat, NAME##_bf16, NAME##_bf16_strided);
 
@@ -114,6 +117,10 @@ UNARY(id, half, copy_f16, copy_f16_strided)
 UNARY(id, uint8_t, copy_u8, copy_u8_strided)
 UNARY(id, uint32_t, copy_u32, copy_u32_strided)
 UNARY(id, int64_t, copy_i64, copy_i64_strided)
+
+#if __METAL_VERSION__ >= 220
+INT64_UNARY_OP(abs)
+#endif
 
 #if __METAL_VERSION__ >= 310
 BFLOAT_UNARY_OP(cos)

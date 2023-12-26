@@ -586,6 +586,7 @@ impl BackendStorage for MetalStorage {
             let kernel_name = match (self.dtype, dtype) {
                 (DType::U32, DType::F32) => "cast_u32_f32",
                 (DType::U32, DType::U8) => "cast_u32_u8",
+                (DType::U32, DType::I64) => "cast_u32_i64",
                 (DType::U8, DType::U32) => "cast_u8_u32",
                 (DType::U8, DType::I64) => "cast_u8_i64",
                 (DType::U8, DType::F32) => "cast_u8_f32",
@@ -609,6 +610,7 @@ impl BackendStorage for MetalStorage {
             let kernel_name = match (self.dtype, dtype) {
                 (DType::U32, DType::F32) => "cast_u32_f32_strided",
                 (DType::U32, DType::U8) => "cast_u32_u8_strided",
+                (DType::U32, DType::I64) => "cast_u32_i64_strided",
                 (DType::U8, DType::U32) => "cast_u8_u32_strided",
                 (DType::U8, DType::F32) => "cast_u8_f32_strided",
                 (DType::F32, DType::F16) => "cast_f32_f16_strided",

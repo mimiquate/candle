@@ -1,5 +1,19 @@
 use candle_core::{test_device, test_utils, DType, Device, IndexOp, Result, Tensor, D};
 
+fn to_dtype(device: &Device) -> Result<()> {
+    let tensor = Tensor::arange(0i64, 5i64, device)?;
+    let casted = tensor.to_dtype(DType::F32)?;
+
+    let equality = casted.eq(&Tensor::arange(0f32, 5f32, device)?)?;
+
+    assert_eq!(
+        equality.to_vec1::<u8>()?,
+        [1, 1, 1, 1, 1]
+    );
+
+    Ok(())
+}
+
 fn zeros(device: &Device) -> Result<()> {
     let tensor = Tensor::zeros((5, 2), DType::F32, device)?;
     let (dim1, dim2) = tensor.dims2()?;
@@ -1078,6 +1092,7 @@ fn randn(device: &Device) -> Result<()> {
     Ok(())
 }
 
+test_device!(to_dtype, to_dtype_cpu, to_dtype_gpu, to_dtype_metal);
 test_device!(zeros, zeros_cpu, zeros_gpu, zeros_metal);
 test_device!(ones, ones_cpu, ones_gpu, ones_metal);
 test_device!(full, full_cpu, full_gpu, full_metal);

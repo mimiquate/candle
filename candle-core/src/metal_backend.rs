@@ -707,6 +707,7 @@ impl BackendStorage for MetalStorage {
                 ("urecip", DType::F16) => contiguous::recip::HALF,
                 ("utanh", DType::F16) => contiguous::tanh::HALF,
                 ("urelu", DType::F16) => contiguous::relu::HALF,
+                ("uabs", DType::I64) => contiguous::abs::I64,
                 (name, dtype) => {
                     crate::bail!("Metal contiguous unary {name} {dtype:?} not implemented")
                 }
@@ -754,6 +755,7 @@ impl BackendStorage for MetalStorage {
                 ("ufloor", DType::F16) => strided::floor::HALF,
                 ("urelu", DType::F16) => strided::relu::HALF,
                 ("uround", DType::F16) => strided::round::HALF,
+                ("uabs", DType::I64) => strided::abs::I64,
                 (name, dtype) => {
                     crate::bail!("Metal strided unary {name} {dtype:?} not implemented")
                 }
